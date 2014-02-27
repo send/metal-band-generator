@@ -1,0 +1,8 @@
+development: &default
+  logging: true
+  log_file: ~
+staging:
+  <<: *default
+production:
+  <<: *default
+  logging: false

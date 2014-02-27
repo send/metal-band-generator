@@ -1,0 +1,16 @@
+.content
+  ol
+    - @band_names.each do |name|
+      li #{name}
+  .via
+    | via. 
+    a href="http://www.invisibleoranges.com/2014/02/the-100-most-overused-metal-band-name-words-according-to-metal-archives/" The 100 Most Overused Metal Band Name Words
+- content_for :styles do
+  css:
+    .content {
+      margin-top: 5em;
+    }
+- content_for :scripts do
+  javascript:
+    //alert(1);
+

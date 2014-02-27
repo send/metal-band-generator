@@ -1,0 +1,6 @@
+.bundle
+.rbenv-version
+vendor
+tmp
+log
+config/thin

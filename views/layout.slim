@@ -1,0 +1,37 @@
+ruby:
+  def activate_current path
+    request.path_info == path ? {class: 'active'} : {}
+  end
+  BOOTSTRAP_BASE = "//netdna.bootstrapcdn.com/bootstrap/3.0.0"
+  JQUERY_BASE = "//ajax.googleapis.com/ajax/libs/jquery/2.0.3"
+
+doctype 5
+html lang="ja"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title SERP Wars
+    link rel="stylesheet" href="#{BOOTSTRAP_BASE}/css/bootstrap.min.css"
+    link rel="stylesheet" href="#{BOOTSTRAP_BASE}/css/bootstrap-theme.min.css"
+    link rel="stylesheet" href="/styles/application.css"
+    == yield_content :styles
+  body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand href="#" Metal Band Name Generator
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li *activate_current("/")
+              a href="/" Home
+    .container.main
+      == yield
+
+    script src="#{JQUERY_BASE}/jquery.min.js"
+    script src="#{BOOTSTRAP_BASE}//js/bootstrap.min.js"
+    script src="/scripts/application.js"
+    == yield_content :scripts
