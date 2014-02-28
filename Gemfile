@@ -8,6 +8,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "thin"
 gem 'slim'
+gem 'rmagick'
 
 group :development do
   gem "rspec", ">= 2.13.0"

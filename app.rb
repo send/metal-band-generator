@@ -110,7 +110,9 @@ module MetalBandGenerator
     register Sinatra::ConfigFile
     register Sinatra::Namespace
     helpers Sinatra::ContentFor
+    include Magick
 
+    POINT_SIZE = 28
     set :environments, %w{development staging production}
     config_file __dir__ + '/config/app.yml'
 
@@ -134,10 +136,27 @@ module MetalBandGenerator
       enable :dump_errors
     end
 
-    get '/' do
+    get %r{^/$} do
       use_weight = !(params[:use_weight] || 0).to_i.zero?
       @band_names = (1..10).inject([]) {|arr| arr << generate(rand(4) + 1, use_weight) }
       slim :index
+    end
+
+    get %r{^/logo/([\w%\d]+)} do |name|
+      length = 30 * name.size
+      logo = Draw.new
+      logo.font = decide_font
+      logo.pointsize = POINT_SIZE
+      logo.text_antialias = true
+      logo.text(10, POINT_SIZE, name)
+      metrics = logo.get_type_metrics(name)
+      image = Image.new(metrics.width + 20, metrics.height * 1.2) do
+        self.format = "PNG"
+        #self.background_color = '#dddddd'
+      end
+      logo.draw image
+      content_type 'image/png'
+      image.to_blob
     end
 
     def generate size = 2, use_weight = true
@@ -146,12 +165,18 @@ module MetalBandGenerator
     end
 
     def choise use_weight = true
+      return WORD_RANKING.sample[0] unless use_weight
       sum = use_weight ? WORD_RANKING.map{|r| r[1]}.inject(:+) : WORD_RANKING.size
       pos = rand(sum)
-      return WORD_RANKING[pos][0] unless use_weight
       WORD_RANKING.each do |rank|
         return rank[0] if (sum -= rank[1]) < pos
       end
+    end
+
+    def decide_font
+      fonts = []
+      Dir.glob("#{__dir__}/fonts/*"){|file| fonts << file}
+      fonts.sample
     end
 
   end
