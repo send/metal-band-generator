@@ -2,6 +2,10 @@
 
 Generating 10 Metal-ish name. Words via http://www.invisibleoranges.com/2014/02/the-100-most-overused-metal-band-name-words-according-to-metal-archives/
 
+== TODO
+
+ * Clear font licenses
+
 == Copyright
 
 Copyright (c) 2014 SAKAI, Kazuaki. See LICENSE.txt for
