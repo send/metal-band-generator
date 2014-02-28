@@ -139,7 +139,7 @@ module MetalBandGenerator
     end
 
     get %r{^/$} do
-      use_weight = !(params[:use_weight] || 0).to_i.zero?
+      use_weight = !(params[:use_weight] || 1).to_i.zero?
       @band_names = (1..10).inject([]) {|arr| arr << generate(rand(4) + 1, use_weight) }
       slim :index
     end
