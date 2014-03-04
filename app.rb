@@ -138,13 +138,13 @@ module MetalBandGenerator
       enable :dump_errors
     end
 
-    get %r{^/$} do
+    get %r{\A/\z} do
       use_weight = !(params[:use_weight] || 1).to_i.zero?
       @band_names = (1..10).inject([]) {|arr| arr << generate(rand(4) + 1, use_weight) }
       slim :index
     end
 
-    get %r{^/logo/([\w%\d]+)} do |name|
+    get %r{\A/logo/([\w%\d]+)\z} do |name|
       length = 30 * name.size
       logo = Draw.new
       logo.font = decide_font
